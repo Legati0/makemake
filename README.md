@@ -20,10 +20,12 @@ $ makemake help
 $ makemake
 ```
 ### Setting a specific compiler
+Standard is `g++`.
 ```
 makemake -compiler <compilername>
 ```
 ### Setting specific compiler flags
+Standard are no flags.
 ```
 makemake -flags <flag1> <flag2> <flag3> ...
 ```
