@@ -24,24 +24,24 @@ $ makemake
 ### Setting a specific compiler
 Standard is `g++`. Add `-g` to set it globally.
 ```
-makemake -compiler <compilername>
+$ makemake -compiler <compilername>
 ```
 ### Setting specific compiler flags
 Standard are no flags. Add `-g` to set it globally.
 ```
-makemake -flags <flag1> <flag2> <flag3> ...
+$ makemake -flags <flag1> <flag2> <flag3> ...
 ```
 To clear compiler flags, just specify no flags
 ```
-makemake -flags
+$ makemake -flags
 ```
 ### Setting name of built executable
 Standard is `run`. Add `-g` to set it globally.
 ```
-makemake -exe <exe name>
+$ makemake -exe <exe name>
 ```
 ### Setting name of generated makefile
 Standard is `Makefile`. Add `-g` to set it globally.
 ```
-makemake -mfname <makefile name>
+$ makemake -mfname <makefile name>
 ```
