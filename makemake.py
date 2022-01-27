@@ -39,6 +39,29 @@ def writeConfig(d: dict, _global: bool):
 		f.write("MFILE = {}\n".format(d["MFILE"]))
 
 
+def formatCfg(d: dict) -> str:
+	return "\tCompiler:\t{gxx}\n\tFlags:\t\t{cflags}\n\tExe-name:\t{exe}\n\tMakefile-name:\t{mfile}".format(
+			gxx=d["GXX"],
+			cflags=d["CFLAGS"],
+			exe=d["EXE"],
+			mfile=d["MFILE"]
+		)
+
+
+def showCfg():
+	globalCfg = parseF(getPath(True))
+	localPath = getPath(False)
+	localCfg = parseF(localPath) if os.path.isfile(localPath) else {}
+
+	print("Global Config:")
+	print(formatCfg(globalCfg))
+	print("Local Config:")
+	if localCfg:
+		print(formatCfg(localCfg))
+	else:
+		print("\tNo local config found in this dir, using global config")
+
+
 def setCompiler(compiler: str, _global: bool):
 	cfg = parseConfig()
 	cfg["GXX"] = compiler
@@ -95,7 +118,7 @@ def generateMakefile():
 	cfg = parseConfig()
 	with open(cfg["MFILE"], "w") as f:
 		f.write("GXX = {}\n".format(cfg["GXX"]))
-		f.write("CFLAGS = {}\n".format(cfg["CFLAGS"]))
+		f.write("CFLAGS = {}\n\n".format(cfg["CFLAGS"]))
 		f.write("{}: ".format(cfg["EXE"]) + " ".join(tup[1] for tup in deps) + "\n")
 		f.write("\t$(GXX) $(CFLAGS) -o {} ".format(cfg["EXE"]) + " ".join(tup[1] for tup in deps) + "\n")
 		f.write("\n")
@@ -128,7 +151,7 @@ if __name__ == "__main__":
 		exit(0)
 	
 	# pop of first arg
-	fArg = argv.pop(0)	
+	fArg = argv.pop(0)
 	if fArg == "-compiler":
 		if not argv:	# no args left
 			print("err: expected string specifying compiler")
@@ -146,8 +169,11 @@ if __name__ == "__main__":
 		setMfileName(argv[0], _global)
 	elif fArg == "-flags":
 		setFlags(argv, _global)
+	elif fArg == "-cfg":
+		showCfg()
 	elif fArg == "help":
 		print("makemake\t- generates a makefile")
+		print("makemake -cfg\t- displays current configs")
 		print("makemake -compiler <name> (-g)\t- sets used compiler to <name>")
 		print("makemake -exe <name> (-g)\t- sets name of built execultable to <name>")
 		print("makemake -mfname <name> (-g)\t- sets name of created makefile to <name>, should be 'makefile' or 'Makefile', but I won't stop you")
