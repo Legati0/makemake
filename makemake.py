@@ -119,6 +119,7 @@ def generateMakefile():
 	with open(cfg["MFILE"], "w") as f:
 		f.write("GXX = {}\n".format(cfg["GXX"]))
 		f.write("CFLAGS = {}\n\n".format(cfg["CFLAGS"]))
+		f.write("all: {}\n\n".format(cfg["EXE"]))
 		f.write("{}: ".format(cfg["EXE"]) + " ".join(tup[1] for tup in deps) + "\n")
 		f.write("\t$(GXX) $(CFLAGS) -o {} ".format(cfg["EXE"]) + " ".join(tup[1] for tup in deps) + "\n")
 		f.write("\n")
